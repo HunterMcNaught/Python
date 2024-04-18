@@ -1,0 +1,53 @@
+# OOP Simulation April 15
+import random
+
+class Elevator:
+
+    def __init__(self):
+        print("Executing Elevator init()")
+        self.MIN_FLOOR = 1
+        self.MAX_FLOOR = 30
+        self.CurrentFloor = self.MIN_FLOOR
+
+    def GoToFloor(self, theFloor):
+        print(f"Destination Floor = {theFloor}")
+        if theFloor > self.CurrentFloor:
+            print(f"\tGoing Up   Starting Floor is {self.CurrentFloor}")
+        else:
+            print(f"\tGoing Down   Starting Floor is {self.CurrentFloor}")
+
+        while theFloor > self.CurrentFloor:
+            self.GoUp()
+        while theFloor < self.CurrentFloor:
+            self.GoDown()
+
+
+    def GoUp(self):
+        self.CurrentFloor += 1
+        print(f"\tGoing Up   Current Floor is {self.CurrentFloor} ")
+
+    def GoDown(self):
+        self.CurrentFloor -= 1
+        print(f"\tGoing Down   Current Floor is {self.CurrentFloor} ")
+
+    def run(self):
+        while True:
+            DestinationFloor = random.randint(self.MIN_FLOOR, self.MAX_FLOOR)
+
+            if DestinationFloor != self.CurrentFloor:
+                break
+
+        self.GoToFloor (DestinationFloor)
+
+#-----------------------------------------------------------------------
+
+def main():
+
+    myElevator = Elevator()
+
+    runTimes = int(input("How many times to run? "))
+
+    for i in range(runTimes):
+        myElevator.run()
+
+main()
