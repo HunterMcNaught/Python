@@ -1,0 +1,84 @@
+import math
+
+def calcIRAMaturity(yUM, interestRate, aDA):
+    interestRateCalc = interestRate / 100
+    IRAmaturity = aDA * ((math.pow((1 + interestRateCalc), yUM) - 1) / interestRateCalc)
+    return IRAmaturity
+
+def calcMonthlyLoanPayment(loanAMT, loanInterestRate, numYears):
+    monthlyLoanInterestRate = (loanInterestRate / 100) / 12
+    monthlyLoanPmt = (loanAMT * monthlyLoanInterestRate) /(1 - math.pow ((1 + monthlyLoanInterestRate),(-12 * numYears)))
+    return monthlyLoanPmt
+
+def ApplyForCard():
+    print ("\n\tCredit card application module.")
+    acctBalance = float(input("Please enter your account balance:"))
+    if acctBalance < 0 :
+        print ("Sorry, account balance cannot be negative.")
+        return 0
+    if acctBalance >= 15000 :
+        print ("Congratulations! You are approved for the Platinum card.")
+        return 1
+    elif acctBalance >= 10000 :
+        print ("Congratulations! You are approved for the Gold card.")
+        return 2
+    elif acctBalance >= 5000 :
+        print ("Congratulations! You are approved for the Silver card.")
+        return 3
+    else :
+        print ("Sorry, you are not approved for any credit card at this time.")
+        return 0
+
+def getMonthlyLoanPayment():
+    print ("\n\tMonthly loan payment calculator.")
+    loanAMT = float(input("\nPlease enter the loan amount (no commas):"))
+    loanInterestRate = float(input("\nPlease enter the yearly interest rate of your loan (in percent):"))
+    numYears = int(input("\nPlease enter the length of your loan in years:"))
+    return calcMonthlyLoanPayment(loanAMT, loanInterestRate, numYears)
+
+def getIRAMaturity():
+    print ("\n\tIRA maturity calculator.")
+    yUM = int(input("\nPlease enter the number of years until maturity of your IRA:"))
+    interestRate = float(input("\nPlease enter your interest rate (in percent):"))
+    aDA = float(input("\nPlease enter your annual deposit amount (no commas):"))
+    return calcIRAMaturity(yUM, interestRate, aDA)
+
+def displayMenu():
+    print("\nWhat would you like to do?")
+    print("\t1. Apply for card")
+    print("\t2. Get your monthly loan payment")
+    print("\t3. Calculate your IRA maturity value")
+
+    menuChoice = int(input("Please choose an option (1 through 3):"))
+
+    if menuChoice == 1:
+        return ApplyForCard()
+    elif menuChoice == 2:
+        return getMonthlyLoanPayment()
+    elif menuChoice == 3:
+        return getIRAMaturity()
+    else:
+        print("Sorry, invalid input.")
+        return None
+
+def main():
+    again = True
+    while again:
+        result = displayMenu()
+        if result is not None and result != 0:  # Check if the result is valid
+            if isinstance(result, int):  # Check if it's an integer (card approval)
+                print("\nResult: Congratulations! You are approved for the:")
+                if result == 1:
+                    print("Platinum card.")
+                elif result == 2:
+                    print("Gold card.")
+                elif result == 3:
+                    print("Silver card.")
+            else:  # For loan payment or IRA maturity calculation
+                print(f"\nResult: ${result: .2f}")
+        again = input("\nRun again? y/n ").lower() == 'y'
+        if again:
+            print("\nRestarting the program.")
+    print("\nThanks for choosing us as your banking program, goodbye.")
+
+main()
